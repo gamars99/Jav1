@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.ArrayList;
+
 import ch.cpnv.models.*;
 
 public class GobAngryBird extends ApplicationAdapter {
@@ -14,10 +16,15 @@ public class GobAngryBird extends ApplicationAdapter {
 	Bird bird;
 	Pig pig;
 	Wasp wasp;
+	//Tnts
 	Tnt tnt;
-	Block block, block2, block3;
+	ArrayList<Tnt> fTnt;
+	//blocks
+	Block block;
+	ArrayList<Block> fBlock;
 	Slingshot slingshot;
 	Slingshotcache slingshotcache;
+	float dt;
 
 	@Override
 	public void create () {
@@ -26,9 +33,19 @@ public class GobAngryBird extends ApplicationAdapter {
 		bird = new Bird(0,0,512,501);
 		pig = new Pig(0,0,922,814);
 		wasp = new Wasp(0,0,960,635);
-		tnt = new Tnt(0,0,894,894);
-		block = new Block(0,0,84,84);
-		block2 = new Block(0,0,84,84);
+
+		fTnt = new ArrayList<Tnt>();
+		for(int i = 0; i < 5; i++){
+			tnt = new Tnt(0,0,894,894);
+			fTnt.add(tnt);
+		}
+
+		fBlock = new ArrayList<Block>();
+		for(int i = 0; i < 15; i++){
+			block = new Block(0, 0, 84, 84);
+			fBlock.add(block);
+		}
+		//block2 = new Block(0,0,84,84);
 		slingshot = new Slingshot(0,0,98,295);
 		slingshotcache = new Slingshotcache(0,0,98,295);
 		setSize();
@@ -37,10 +54,8 @@ public class GobAngryBird extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-
-
+		dt+=1;
 		update();
-
 		batch.begin();
 			batch.draw(img, 0, 0);
 			//draw slingshot
@@ -54,10 +69,13 @@ public class GobAngryBird extends ApplicationAdapter {
 			//draw wasp
 			wasp.draw(batch);
 			//draw tnt
-			tnt.draw(batch);
+			for(Tnt tnt : fTnt){
+				tnt.draw(batch);
+			}
 			//draw block
-			block.draw(batch);
-			block2.draw(batch);
+			for(Block block : fBlock){
+				block.draw(batch);
+			}
 		batch.end();
 
 	}
@@ -66,22 +84,36 @@ public class GobAngryBird extends ApplicationAdapter {
 		bird.setSize(100,100);
 		pig.setSize(100,100);
 		wasp.setSize(150,150);
-		tnt.setSize(100,100);
+		for(Tnt tnt : fTnt) {
+			tnt.setSize(100, 100);
+		}
 	}
 
 	public void setPosition(){
+		int iTnt = 0;
+		int iBlock = 0;
 		bird.setPosition(120,410);
-		pig.setPosition(780,200);
+		pig.setPosition(1080,280);
 		wasp.setPosition(1500,500);
-		tnt.setPosition(560,280);
-		block.setPosition(500,200);
-		block2.setPosition(584,200);
+		for(Tnt tnt : fTnt){
+			System.out.print(fTnt.size());
+			tnt.setPosition(580,280+90*iTnt);
+			iTnt++;
+		}
+		for(Block block : fBlock) {
+			block.setPosition(500+84*iBlock,200);
+			iBlock++;
+		}
 		slingshot.setPosition(120,200);
 		slingshotcache.setPosition(120,200);
 	}
 
 	public void update(){
-		bird.translate(0,-1);
+		float i = (float) 0.01;
+
+		//bird.fire(20,i);
+		//bird.move(dt);
+
 	}
 
 	@Override
