@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Bird extends MovingObject {
-    boolean moving = true;
+    boolean moving = false;
     float time;
     float v0;
     float angle;

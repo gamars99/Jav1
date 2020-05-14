@@ -5,8 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import ch.cpnv.models.*;
 
@@ -25,6 +27,8 @@ public class GobAngryBird extends ApplicationAdapter {
 	Slingshot slingshot;
 	Slingshotcache slingshotcache;
 	float dt;
+	MathUtils math;
+	boolean fire = false;
 
 	@Override
 	public void create () {
@@ -50,12 +54,11 @@ public class GobAngryBird extends ApplicationAdapter {
 		slingshotcache = new Slingshotcache(0,0,98,295);
 		setSize();
 		setPosition();
+
 	}
 
 	@Override
 	public void render () {
-		dt+=1;
-		update();
 		batch.begin();
 			batch.draw(img, 0, 0);
 			//draw slingshot
@@ -77,6 +80,7 @@ public class GobAngryBird extends ApplicationAdapter {
 				block.draw(batch);
 			}
 		batch.end();
+		update();
 
 	}
 
@@ -109,11 +113,18 @@ public class GobAngryBird extends ApplicationAdapter {
 	}
 
 	public void update(){
-		float i = (float) 0.01;
+		if(Gdx.input.isTouched() && Gdx.input.getDeltaX()<0) {
+			bird.setPosition(bird.getX() + Gdx.input.getDeltaX(),bird.getY() - Gdx.input.getDeltaY());
+			fire = true;
+		}
+		if(fire == true) {
+			bird.fire(73, 10);
+		}
 
-		//bird.fire(20,i);
-		//bird.move(dt);
+		dt = Gdx.graphics.getDeltaTime();
+		bird.move(dt);
 
+		wasp.move((int) dt);
 	}
 
 	@Override

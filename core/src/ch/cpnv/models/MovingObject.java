@@ -19,5 +19,4 @@ public abstract class MovingObject extends PhysicalObject {
     public abstract void accelerate(int dt);
 
     public abstract void setTexture(String s);
-
 }
