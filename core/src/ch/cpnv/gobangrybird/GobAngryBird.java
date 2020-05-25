@@ -2,17 +2,21 @@ package ch.cpnv.gobangrybird;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 
+import java.awt.SystemTray;
 import java.util.ArrayList;
 import java.util.Random;
-
 import ch.cpnv.models.*;
 
-public class GobAngryBird extends ApplicationAdapter {
+public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
+	public static long startTime = TimeUtils.millis();
 	SpriteBatch batch;
 	Texture img;
 	Bird bird;
@@ -28,7 +32,8 @@ public class GobAngryBird extends ApplicationAdapter {
 	Slingshotcache slingshotcache;
 	float dt;
 	MathUtils math;
-	boolean fire = false;
+	float fire;
+	InputProcessor processor;
 
 	@Override
 	public void create () {
@@ -54,13 +59,21 @@ public class GobAngryBird extends ApplicationAdapter {
 		slingshotcache = new Slingshotcache(0,0,98,295);
 		setSize();
 		setPosition();
-
+		Gdx.input.setInputProcessor(this);
 	}
 
 	@Override
 	public void render () {
 		batch.begin();
 			batch.draw(img, 0, 0);
+			//draw tnt
+			for(Tnt tnt : fTnt){
+				tnt.draw(batch);
+			}
+			//draw block
+			for(Block block : fBlock){
+				block.draw(batch);
+			}
 			//draw slingshot
 			slingshot.draw(batch);
 			//draw birg
@@ -71,17 +84,8 @@ public class GobAngryBird extends ApplicationAdapter {
 			pig.draw(batch);
 			//draw wasp
 			wasp.draw(batch);
-			//draw tnt
-			for(Tnt tnt : fTnt){
-				tnt.draw(batch);
-			}
-			//draw block
-			for(Block block : fBlock){
-				block.draw(batch);
-			}
 		batch.end();
 		update();
-
 	}
 
 	public void setSize(){
@@ -113,17 +117,8 @@ public class GobAngryBird extends ApplicationAdapter {
 	}
 
 	public void update(){
-		if(Gdx.input.isTouched() && Gdx.input.getDeltaX()<0) {
-			bird.setPosition(bird.getX() + Gdx.input.getDeltaX(),bird.getY() - Gdx.input.getDeltaY());
-			fire = true;
-		}
-		if(fire == true) {
-			bird.fire(73, 10);
-		}
-
 		dt = Gdx.graphics.getDeltaTime();
 		bird.move(dt);
-
 		wasp.move((int) dt);
 	}
 
@@ -131,5 +126,50 @@ public class GobAngryBird extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		img.dispose();
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		Vector2 angle = new Vector2(bird.getX() - Gdx.input.getDeltaX(),bird.getY() - Gdx.input.getDeltaY());
+
+		bird.fire(angle.angle()-90,fire);
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		bird.setPosition(bird.getX() + Gdx.input.getDeltaX(),bird.getY() - Gdx.input.getDeltaY());
+		fire -=  Gdx.input.getDeltaX()/4 + -(Gdx.input.getDeltaY()/4);
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
 	}
 }
