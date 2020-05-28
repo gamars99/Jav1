@@ -150,16 +150,16 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		Vector2 angle = new Vector2(bird.getX() - Gdx.input.getDeltaX(),bird.getY() - Gdx.input.getDeltaY());
-
-		bird.fire(angle.angle()-90,fire);
+		bird.fire();
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		bird.setPosition(bird.getX() + Gdx.input.getDeltaX(),bird.getY() - Gdx.input.getDeltaY());
-		fire -=  Gdx.input.getDeltaX()/4 + -(Gdx.input.getDeltaY()/4);
+		if(!bird.getmoving()) {
+			bird.setPosition(bird.getX() + Gdx.input.getDeltaX(), bird.getY() - Gdx.input.getDeltaY());
+			fire -= Gdx.input.getDeltaX() / 4 + -(Gdx.input.getDeltaY() / 4);
+		}
 		return false;
 	}
 
