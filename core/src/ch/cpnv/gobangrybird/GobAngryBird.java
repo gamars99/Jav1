@@ -86,6 +86,7 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 			wasp.draw(batch);
 		batch.end();
 		update();
+		touched();
 	}
 
 	public void setSize(){
@@ -120,6 +121,17 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 		dt = Gdx.graphics.getDeltaTime();
 		bird.move(dt);
 		wasp.move((int) dt);
+	}
+
+	public void touched(){
+		//touche pig
+		if(bird.getX() >= pig.getX()-60 && bird.getY() <= pig.getY()+60 &&     bird.getX() <= pig.getX() && bird.getY() >= pig.getY()-60){
+			bird.reset();
+		}
+		//touche wasp
+		if(bird.getX() >= wasp.getX()-60 && bird.getY() <= wasp.getY()+60 &&     bird.getX() <= wasp.getX() && bird.getY() >= wasp.getY()-60){
+			bird.reset();
+		}
 	}
 
 	@Override
