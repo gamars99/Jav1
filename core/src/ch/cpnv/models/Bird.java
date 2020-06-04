@@ -4,11 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Bird extends MovingObject {
-    boolean moving = false;
-    float time;
-    float v0;
-    float angle;
-    MathUtils math;
+    public boolean moving = false;
+
+    private float time;
+    private float v0;
+    private float angle;
+    private MathUtils math;
     private int originX;
     private int originY;
 
@@ -36,16 +37,12 @@ public class Bird extends MovingObject {
         }
     }
 
-    public void fire(/*float a, float v*/){
-       /* v0 = v;
-        angle = a;
-        moving = true;*/
-
+    public void fire(){
         if(!moving){
             double theta = 180.0 / Math.PI * Math.atan2(originX - this.getX(), originY - this.getY());
             this.angle = (float) (90-theta);
             double dist = Math.hypot(Math.abs(originX - this.getX()), Math.abs(originY-this.getY()));
-            this.v0 = (float) (dist/15);
+            this.v0 = (float) (dist/12);
             this.moving = true;
         }
     }
@@ -60,7 +57,7 @@ public class Bird extends MovingObject {
         return v0*math.cosDeg(angle);
     }
     private float Vy(float t){
-        return v0*math.sinDeg(angle)-10*t;
+        return v0*math.sinDeg(angle)-20*t;
     }
 
     public boolean getmoving(){ return moving; }

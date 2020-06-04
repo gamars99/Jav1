@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
-
 import java.awt.SystemTray;
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,23 +16,23 @@ import ch.cpnv.models.*;
 
 public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 	public static long startTime = TimeUtils.millis();
-	SpriteBatch batch;
-	Texture img;
-	Bird bird;
-	Pig pig;
-	Wasp wasp;
+	public SpriteBatch batch;
+	public Texture img;
+	public Bird bird;
+	public Pig pig;
+	public Wasp wasp;
 	//Tnts
-	Tnt tnt;
-	ArrayList<Tnt> fTnt;
+	public Tnt tnt;
+	public ArrayList<Tnt> fTnt;
 	//blocks
-	Block block;
-	ArrayList<Block> fBlock;
-	Slingshot slingshot;
-	Slingshotcache slingshotcache;
-	float dt;
-	MathUtils math;
-	float fire;
-	InputProcessor processor;
+	public Block block;
+	public ArrayList<Block> fBlock;
+	public Slingshot slingshot;
+	public Slingshotcache slingshotcache;
+	public float dt;
+	public MathUtils math;
+	public float fire;
+	public InputProcessor processor;
 
 	@Override
 	public void create () {
@@ -170,7 +169,6 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		if(!bird.getmoving()) {
 			bird.setPosition(bird.getX() + Gdx.input.getDeltaX(), bird.getY() - Gdx.input.getDeltaY());
-			fire -= Gdx.input.getDeltaX() / 4 + -(Gdx.input.getDeltaY() / 4);
 		}
 		return false;
 	}
