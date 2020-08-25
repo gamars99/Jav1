@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+
 import java.awt.SystemTray;
 import java.util.ArrayList;
 import java.util.Random;
@@ -123,12 +125,16 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 	}
 
 	public void touched(){
+		Rectangle rectanglebird = bird.getBoundingRectangle();
+		Rectangle rectanglepig = pig.getBoundingRectangle();
+		Rectangle rectanglewasp = wasp.getBoundingRectangle();
 		//touche pig
-		if(bird.getX() >= pig.getX()-60 && bird.getY() <= pig.getY()+60 &&     bird.getX() <= pig.getX() && bird.getY() >= pig.getY()-60){
-			bird.reset();
-		}
+		boolean birdToPigisOverlaping = rectanglebird.overlaps(rectanglepig);
+
 		//touche wasp
-		if(bird.getX() >= wasp.getX()-60 && bird.getY() <= wasp.getY()+60 &&     bird.getX() <= wasp.getX() && bird.getY() >= wasp.getY()-60){
+		boolean birdToWaspisOverlaping = rectanglebird.overlaps(rectanglewasp);
+
+		if(birdToPigisOverlaping || birdToWaspisOverlaping){
 			bird.reset();
 		}
 	}
