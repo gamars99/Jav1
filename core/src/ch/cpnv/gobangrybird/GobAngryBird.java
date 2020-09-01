@@ -36,7 +36,8 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 	public MathUtils math;
 	public float fire;
 	public InputProcessor processor;
-	//private Music music;
+	private Music birdsound;
+	private Music Themesong;
 
 	@Override
 	public void create () {
@@ -57,10 +58,17 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 			block = new Block(0, 0, 84, 84);
 			fBlock.add(block);
 		}
-		//block2 = new Block(0,0,84,84);
 		slingshot = new Slingshot(0,0,98,295);
 		slingshotcache = new Slingshotcache(0,0,98,295);
-		//music = Gdx.audio.newMusic(Gdx.files.internal(""));
+
+		birdsound = Gdx.audio.newMusic(Gdx.files.internal("bruit.mp3"));
+		birdsound.setVolume(0.5f);
+
+		Themesong = Gdx.audio.newMusic(Gdx.files.internal("Angry_Birds_Theme_Song.mp3"));
+		Themesong.setVolume(0.2f);
+		Themesong.setLooping(true);
+		Themesong.play();
+
 		setSize();
 		setPosition();
 		Gdx.input.setInputProcessor(this);
@@ -132,8 +140,6 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 		Rectangle rectanglebird = bird.getBoundingRectangle();
 		Rectangle rectanglepig = pig.getBoundingRectangle();
 		Rectangle rectanglewasp = wasp.getBoundingRectangle();
-		Rectangle rectangletnt = tnt.getBoundingRectangle();
-		Rectangle rectangleblock = block.getBoundingRectangle();
 		//touche pig
 		boolean birdToPigisOverlaping = rectanglebird.overlaps(rectanglepig);
 		//touche wasp
@@ -164,6 +170,7 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 	public void dispose () {
 		batch.dispose();
 		img.dispose();
+		birdsound.dispose();
 	}
 
 	@Override
@@ -188,6 +195,7 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		birdsound.play();
 		bird.fire();
 		return false;
 	}
