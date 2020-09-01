@@ -3,6 +3,7 @@ package ch.cpnv.gobangrybird;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -35,6 +36,7 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 	public MathUtils math;
 	public float fire;
 	public InputProcessor processor;
+	//private Music music;
 
 	@Override
 	public void create () {
@@ -58,6 +60,7 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 		//block2 = new Block(0,0,84,84);
 		slingshot = new Slingshot(0,0,98,295);
 		slingshotcache = new Slingshotcache(0,0,98,295);
+		//music = Gdx.audio.newMusic(Gdx.files.internal(""));
 		setSize();
 		setPosition();
 		Gdx.input.setInputProcessor(this);
@@ -125,6 +128,7 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 	}
 
 	public void touched(){
+		boolean bResult;
 		Rectangle rectanglebird = bird.getBoundingRectangle();
 		Rectangle rectanglepig = pig.getBoundingRectangle();
 		Rectangle rectanglewasp = wasp.getBoundingRectangle();
@@ -134,13 +138,25 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 		boolean birdToPigisOverlaping = rectanglebird.overlaps(rectanglepig);
 		//touche wasp
 		boolean birdToWaspisOverlaping = rectanglebird.overlaps(rectanglewasp);
-		//touche tnt
-		boolean birdToTntisOverlaping = rectanglebird.overlaps(rectangletnt);
-		//touche block
-		boolean birdToBlockisOverlaping = rectanglebird.overlaps(rectangleblock);
 
-		if(birdToPigisOverlaping || birdToWaspisOverlaping || birdToTntisOverlaping || birdToBlockisOverlaping){
+		if(birdToPigisOverlaping || birdToWaspisOverlaping){
 			bird.reset();
+		}
+		//touche array tnt
+		for(Tnt Overlapblock : fTnt) {
+			Rectangle resolve = Overlapblock.getBoundingRectangle();
+			bResult = rectanglebird.overlaps(resolve);
+			if(bResult){
+				bird.reset();
+			}
+		}
+		//touche array Block
+		for(Block Overlapblock : fBlock) {
+			Rectangle resolve = Overlapblock.getBoundingRectangle();
+			bResult = rectanglebird.overlaps(resolve);
+			if(bResult){
+				bird.reset();
+			}
 		}
 	}
 
