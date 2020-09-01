@@ -45,7 +45,7 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 		wasp = new Wasp(0,0,960,635);
 
 		fTnt = new ArrayList<Tnt>();
-		for(int i = 0; i < 5; i++){
+		for(int i = 0; i < 2; i++){
 			tnt = new Tnt(0,0,894,894);
 			fTnt.add(tnt);
 		}
@@ -66,25 +66,25 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 	@Override
 	public void render () {
 		batch.begin();
-			batch.draw(img, 0, 0);
-			//draw tnt
-			for(Tnt tnt : fTnt){
-				tnt.draw(batch);
-			}
-			//draw block
-			for(Block block : fBlock){
-				block.draw(batch);
-			}
-			//draw slingshot
-			slingshot.draw(batch);
-			//draw birg
-			bird.draw(batch);
-			//draw slingshotcache
-			slingshotcache.draw(batch);
-			//draw pig
-			pig.draw(batch);
-			//draw wasp
-			wasp.draw(batch);
+		batch.draw(img, 0, 0);
+		//draw tnt
+		for(Tnt tnt : fTnt){
+			tnt.draw(batch);
+		}
+		//draw block
+		for(Block block : fBlock){
+			block.draw(batch);
+		}
+		//draw slingshot
+		slingshot.draw(batch);
+		//draw birg
+		bird.draw(batch);
+		//draw slingshotcache
+		slingshotcache.draw(batch);
+		//draw pig
+		pig.draw(batch);
+		//draw wasp
+		wasp.draw(batch);
 		batch.end();
 		update();
 		touched();
@@ -128,13 +128,18 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 		Rectangle rectanglebird = bird.getBoundingRectangle();
 		Rectangle rectanglepig = pig.getBoundingRectangle();
 		Rectangle rectanglewasp = wasp.getBoundingRectangle();
+		Rectangle rectangletnt = tnt.getBoundingRectangle();
+		Rectangle rectangleblock = block.getBoundingRectangle();
 		//touche pig
 		boolean birdToPigisOverlaping = rectanglebird.overlaps(rectanglepig);
-
 		//touche wasp
 		boolean birdToWaspisOverlaping = rectanglebird.overlaps(rectanglewasp);
+		//touche tnt
+		boolean birdToTntisOverlaping = rectanglebird.overlaps(rectangletnt);
+		//touche block
+		boolean birdToBlockisOverlaping = rectanglebird.overlaps(rectangleblock);
 
-		if(birdToPigisOverlaping || birdToWaspisOverlaping){
+		if(birdToPigisOverlaping || birdToWaspisOverlaping || birdToTntisOverlaping || birdToBlockisOverlaping){
 			bird.reset();
 		}
 	}
