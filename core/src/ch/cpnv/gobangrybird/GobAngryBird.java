@@ -48,7 +48,7 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 		wasp = new Wasp(0,0,960,635);
 
 		fTnt = new ArrayList<Tnt>();
-		for(int i = 0; i < 2; i++){
+		for(int i = 0; i < 12; i++){
 			tnt = new Tnt(0,0,894,894);
 			fTnt.add(tnt);
 		}
@@ -153,7 +153,7 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 			Rectangle resolve = Overlapblock.getBoundingRectangle();
 			bResult = rectanglebird.overlaps(resolve);
 			if(bResult){
-				bird.reset();
+				bird.bounce();
 			}
 		}
 		//touche array Block
@@ -161,7 +161,7 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 			Rectangle resolve = Overlapblock.getBoundingRectangle();
 			bResult = rectanglebird.overlaps(resolve);
 			if(bResult){
-				bird.reset();
+				bird.bounce();
 			}
 		}
 	}

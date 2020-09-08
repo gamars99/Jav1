@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class Bird extends MovingObject {
     public boolean moving = false;
+    public boolean bounce = false;
 
     private float time;
     private float v0;
@@ -32,9 +33,17 @@ public class Bird extends MovingObject {
     public void move(float dt) {
         if(moving){
             time += dt;
-            this.translate(this.Vx(), this.Vy(time));
+            if(bounce) {
+                this.translate(-(this.Vx()), this.Vy(time));
+            }else {
+                this.translate(this.Vx(), this.Vy(time));
+            }
             if(this.getY() < -500)this.reset();
         }
+    }
+
+    public void bounce(){
+        this.bounce = true;
     }
 
     public void fire(){
@@ -49,6 +58,7 @@ public class Bird extends MovingObject {
 
     public void reset(){
         this.moving = false;
+        this.bounce = false;
         this.setPosition(originX, originY);
         this.time = 0;
     }
