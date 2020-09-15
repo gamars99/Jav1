@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -16,9 +17,13 @@ import java.awt.SystemTray;
 import java.util.ArrayList;
 import java.util.Random;
 import ch.cpnv.models.*;
+import ch.cpnv.models.data.Vocabulary;
+import ch.cpnv.providers.VocProvider;
 
 public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 	public static long startTime = TimeUtils.millis();
+	public static Random rand;
+
 	public SpriteBatch batch;
 	public Texture img;
 	public Bird bird;
@@ -38,13 +43,21 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 	public InputProcessor processor;
 	private Music birdsound;
 	private Music Themesong;
+	//Voc
+	private VocProvider vocSource = VocProvider.getInstance();
+	private Vocabulary voc;
 
 	@Override
 	public void create () {
+		rand = new Random();
 		batch = new SpriteBatch();
+
+		//voc
+		voc = vocSource.pickAVoc();
+
 		img = new Texture("background.jpg");
 		bird = new Bird(0,0,512,501);
-		pig = new Pig(0,0,922,814);
+		pig = new Pig(0,0,922,814,voc.pickAWord().getValue1());
 		wasp = new Wasp(0,0,960,635);
 
 		fTnt = new ArrayList<Tnt>();
@@ -145,6 +158,7 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 		//touche wasp
 		boolean birdToWaspisOverlaping = rectanglebird.overlaps(rectanglewasp);
 
+		//touche wasp or pig
 		if(birdToPigisOverlaping || birdToWaspisOverlaping){
 			bird.reset();
 		}
