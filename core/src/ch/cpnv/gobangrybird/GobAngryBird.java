@@ -61,7 +61,7 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 		wasp = new Wasp(0,0,960,635);
 
 		fTnt = new ArrayList<Tnt>();
-		for(int i = 0; i < 12; i++){
+		for(int i = 0; i < 8; i++){
 			tnt = new Tnt(0,0,894,894);
 			fTnt.add(tnt);
 		}
@@ -204,6 +204,13 @@ public class GobAngryBird extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		int yscreen = (int) (1080 - screenY);
+		int xPig = (int) pig.getX();
+		int yPig = (int) pig.getY();
+		if(screenX >= xPig && screenX <= xPig+100 && yscreen >= yPig && yscreen <= yPig+100){
+			pig.sayWord();
+		}
+
 		return false;
 	}
 
